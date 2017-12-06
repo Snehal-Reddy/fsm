@@ -37,7 +37,7 @@ class GoToPoint(behavior.Behavior):
 			behaviour.Behaviour.State.completed,lambda:self.at_new_point(),'complete')
 
 		self.add_transition(behaviour.Behaviour.State.completed,
-			behaviour.Behaviour.State.start,lambda:self.at_new_point(),'complete')
+			behaviour.Behaviour.State.start,lambda:not self.at_new_point(),'complete')
 	##
 	## @brief      { function_description }
 	##
