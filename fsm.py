@@ -1,7 +1,5 @@
 import logging
 from enum import Enum
-import graphviz as gv
-
 
 ## @brief generic hierarchial state machine class.
 #
