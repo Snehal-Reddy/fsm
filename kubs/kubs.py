@@ -1,5 +1,5 @@
 import cmd_node
-pub=None
+pub = None
 ##
 ## @brief      Class for kubs.
 ##
