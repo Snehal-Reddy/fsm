@@ -26,7 +26,7 @@ class Behavior(fsm.StateMachine):
         self.add_state(Behavior.State.failed)
         self.add_state(Behavior.State.cancelled)
 
-        self._is_continuous = continuous
+        #self._is_continuous = continuous
 
     def add_state(self, state, parent_state=None):
         super().add_state(state, parent_state)
@@ -41,12 +41,18 @@ class Behavior(fsm.StateMachine):
             if self.is_in_state(state): return True
 
         return False
+    
+    ## Set the behavior to failed if sub behaviors remains uncompleted
+    def set_failed(self):
+        if self.is_done_running():
+            logging.warn("Attempt to set fail flag to a behavior that's already done running")
+        else:
+            self.transition(Behavior.State.failed)
 
     ## Transitions the Behavior into a terminal state (either completed or cancelled)
     def terminate(self):
         if self.is_done_running():
-            logging.warn(
-                "Attempt to terminate behavior that's already done running")
+            logging.warn("Attempt to terminate behavior that's already done running")
         else:
             self.transition(Behavior.State.cancelled)
 
