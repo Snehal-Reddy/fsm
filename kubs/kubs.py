@@ -50,10 +50,10 @@ class kubs:
 	##
 	## @return     { description_of_the_return_value }
 	##
-	def move(self, vx, vy):
+	def move(self, vx, vy, vw):
 		self.vx = vx
 		self.vy = vy
-
+		self.vw = vw
 
 	##
 	## @brief      { function_description }
