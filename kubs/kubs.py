@@ -13,7 +13,7 @@ class kubs:
 	## @param      kubs_id  The kubs identifier
 	##
 	
-	def __init__(self, kubs_id):
+	def __init__(self, kubs_id, pub):
 		self.kubs_id = kubs_id
 		self.pos = None
 		self.vx = 0
@@ -24,7 +24,7 @@ class kubs:
 		self.power = False
 		self.state = BeliefState()
 		self.kubsBelief()
-
+		self.pub = pub
 	##
 	## @brief      { function_description }
 	##
@@ -105,7 +105,7 @@ class kubs:
 	
 
 	def execute(self,state):
-		cmd_node.send_command(pub, self.isteamyellow, self.kubs_id, self.vx, self.vy, self.vw, self.power, self.dribbler)	
+		cmd_node.send_command(self.pub, self.isteamyellow, self.kubs_id, self.vx, self.vy, self.vw, self.power, self.dribbler)	
 		self.reset()
 
 	##

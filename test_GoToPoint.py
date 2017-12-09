@@ -1,4 +1,5 @@
 from kubs import *
+from run import *
 import rospy
 sys.path.append('./../../plays_py/scripts/utils/')
 from geometry import Vector2D
@@ -6,7 +7,8 @@ from krssg_ssl_msgs.msg import point_2d
 from config import *
 
 BOT_ID = 0
-kub = kubs.kubs(BOT_ID)
+pub = rospy.Publisher('/grsim_data', gr_Commands, queue_size=1000)
+kub = kubs.kubs(BOT_ID, pub)
 start_time = rospy.Time.now()
 start_time = 1.0*start.secs + 1.0*start.nsecs/pow(10,9)
 GOAL_POINT = point_2d()
@@ -29,7 +31,7 @@ def BS_callback(data):
 	t = rospy.Time.now()
 	t = t.secs + 1.0*t.nsecs/pow(10,9)
 
-	[vx, vy, vw, REPLANNED] = Get_Vel(t, BOT_ID, homePos, awayPos)	#vx, vy, vw, replanned
+	[vx, vy, vw, REPLANNED] = Get_Vel(start_time, t, BOT_ID, GOAL_POINT, homePos, awayPos)	#vx, vy, vw, replanned
 	
 	if(REPLANNED):
 		reset()
@@ -41,4 +43,4 @@ def BS_callback(data):
 if __name__ == "__main__":
 	rospy.init_node('node_new',anonymous=False)
 	pub = rospy.Publisher('/grsim_data', gr_Commands, queue_size=1000)	
-	rospy.Subscriber('/belief_state', BeliefState, Callback, queue_size=1000)
+	rospy.Subscriber('/belief_state', BeliefState, BS_Callback, queue_size=1000)
