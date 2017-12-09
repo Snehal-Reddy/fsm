@@ -6,120 +6,120 @@ from krssg_ssl_msgs.msg import BeliefState
 ## @brief      Class for kubs.
 ##
 class kubs:
-	##
-	## @brief      Constructs the object.
-	##
-	## @param      self     The object
-	## @param      kubs_id  The kubs identifier
-	##
-	
-	def __init__(self, kubs_id, pub):
-		self.kubs_id = kubs_id
-		self.pos = None
-		self.vx = 0
-		self.vy = 0
-		self.vw = 0
-		self.isteamyellow = None
-		self.dribbler = False
-		self.power = False
-		self.state = BeliefState()
-		self.kubsBelief()
-		self.pub = pub
-	##
-	## @brief      { function_description }
-	##
-	## @param      self  The object
-	##
-	## @return     { description_of_the_return_value }
-	##
-	
+    ##
+    ## @brief      Constructs the object.
+    ##
+    ## @param      self     The object
+    ## @param      kubs_id  The kubs identifier
+    ##
+    
+    def __init__(self, kubs_id, pub):
+        self.kubs_id = kubs_id
+        self.pos = None
+        self.vx = 0
+        self.vy = 0
+        self.vw = 0
+        self.isteamyellow = False
+        self.dribbler = False
+        self.power = False
+        self.state = BeliefState()
+        self.kubsBelief()
+        self.pub = pub
+    ##
+    ## @brief      { function_description }
+    ##
+    ## @param      self  The object
+    ##
+    ## @return     { description_of_the_return_value }
+    ##
+    
 
-	def reset(self):
-		self.dribbler = False
-		self.vx = 0.0
-		self.vy = 0.0
-		self.vw = 0.0
-		self.power = 0.0
-	
-	##
-	## @brief      { function_description }
-	##
-	## @param      self          The object
-	## @param      target_point  The target point
-	## @param      state         The state
-	##
-	## @return     { description_of_the_return_value }
-	##
-	def move(self, vx, vy, vw = 0):
-		self.vx = vx
-		self.vy = vy
-		self.vw = vw
-
-	##
-	## @brief      { function_description }
-	##
-	## @param      self  The object
-	##
-	## @return     { description_of_the_return_value }
-	##
-	
-
-	def dribble(self, dribbler):
-		self.dribbler = dribbler
-
-
-	##
-	## @brief      { function_description }
-	##
-	## @param      self   The object
-	## @param      angle  The angle
-	##
-	## @return     { description_of_the_return_value }
-	##
-
-	def turn(self, vw):
-		self.vw = vw
+    def reset(self):
+        self.dribbler = False
+        self.vx = 0.0
+        self.vy = 0.0
+        self.vw = 0.0
+        self.power = 0.0
+    
+    ##
+    ## @brief      { function_description }
+    ##
+    ## @param      self          The object
+    ## @param      target_point  The target point
+    ## @param      state         The state
+    ##
+    ## @return     { description_of_the_return_value }
+    ##
+    def move(self, vx, vy, vw = 0):
+        self.vx = vx
+        self.vy = vy
+        self.vw = vw
 
     ##
-	## @brief      { function_description }
-	##
-	## @param      self   The object
-	## @param      power  The power
-	##
-	## @return     { description_of_the_return_value }
-	##
-	
+    ## @brief      { function_description }
+    ##
+    ## @param      self  The object
+    ##
+    ## @return     { description_of_the_return_value }
+    ##
+    
 
-	def kick(self, power):
-		self.power = power
+    def dribble(self, dribbler):
+        self.dribbler = dribbler
 
 
-	##
-	## @brief      { function_description }
-	##
-	## @param      self   The object
-	## @param      state  The state
-	##
-	## @return     { description_of_the_return_value }
-	##
-	
+    ##
+    ## @brief      { function_description }
+    ##
+    ## @param      self   The object
+    ## @param      angle  The angle
+    ##
+    ## @return     { description_of_the_return_value }
+    ##
 
-	def execute(self,state):
-		cmd_node.send_command(self.pub, self.isteamyellow, self.kubs_id, self.vx, self.vy, self.vw, self.power, self.dribbler)	
-		self.reset()
+    def turn(self, vw):
+        self.vw = vw
 
-	##
-	## @brief      Gets the position.
-	##
-	## @param      self   The object
-	## @param      state  The state
-	##
-	## @return     The position.
-	##
-	
+    ##
+    ## @brief      { function_description }
+    ##
+    ## @param      self   The object
+    ## @param      power  The power
+    ##
+    ## @return     { description_of_the_return_value }
+    ##
+    
 
-	def get_pos(self, state):
-		return self.pos
+    def kick(self, power):
+        self.power = power
+
+
+    ##
+    ## @brief      { function_description }
+    ##
+    ## @param      self   The object
+    ## @param      state  The state
+    ##
+    ## @return     { description_of_the_return_value }
+    ##
+    
+
+    def execute(self,state):
+        cmd_node.send_command(self.pub, self.isteamyellow, self.kubs_id, self.vx, self.vy, self.vw, self.power, self.dribbler)  
+        self.reset()
+
+    ##
+    ## @brief      Gets the position.
+    ##
+    ## @param      self   The object
+    ## @param      state  The state
+    ##
+    ## @return     The position.
+    ##
+    
+
+    def get_pos(self, state):
+        return self.pos
 
     def bs_callback(self, data):
         self.state.isteamyellow                 = data.isteamyellow
@@ -149,10 +149,9 @@ class kubs:
         self.vy = data.homeVel[self.kubs_id].y
 
         if self.homeDetected[self.kubs_id] == True:
-        	print("kubs_id " + str(self.kubs_id) + "Detected")
+            print("kubs_id " + str(self.kubs_id) + "Detected")
         else:
-        	print("kubs_id " + str(self.kubs_id) + "Not Detected")
+            print("kubs_id " + str(self.kubs_id) + "Not Detected")
 
-     def kubsBelief(self):
-     	rospy.init_node('kubs_bs', anonymous=False)
-     	rospy.Subscriber('/belief_state', BeliefState, self.bs_callback, queue_size=1000)
+    def kubsBelief(self):
+        pass
