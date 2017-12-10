@@ -1,7 +1,7 @@
 from enum import Enum
 import behavior
 import config
-
+import _GoToPoint
 class GoToPoint(behavior.Behavior):
 	"""docstring for GoToPoint"""
 	##
@@ -17,10 +17,12 @@ class GoToPoint(behavior.Behavior):
 	## @param      self   The object
 	## @param      point  The point
 	##
-	def __init__(self,point=None):
+	def __init__(self,kub,state,point):
 		super(GoToPoint, self).__init__()
+		self.kub = kub
+		self.state = state
 
-		self.target_point = target_point
+		self.target_point = point
 
 		self.add_state(GoToPoint.State.setup,
 			behaviour.Behaviour.State.running)
@@ -60,7 +62,10 @@ class GoToPoint(behavior.Behavior):
 		
 	def on_enter_setup(self):
 		pass
-
+	def execute_setup(self):
+		_GoToPoint.init(self.kub,self.target_point)
+		pass
+		
 	def on_exit_setup(self):
 		pass
 
@@ -78,23 +83,22 @@ class GoToPoint(behavior.Behavior):
 	##
 	## @return     { description_of_the_return_value }
 	##
-	def execute_drive(self,kub,state):
+	def execute_drive(self):
+		_GoToPoint.run()
 		##
 		##
-		##velo profilling data
-		##
-		##
-		
-		## for each velo in velo_profling vector
-		kub.move(vx,vy)
-		kub.turn(vw)
-		kub.execute(state)
+		##velo profilling data		
+		# ## for each velo in velo_profling vector
+		# kub.move(vx,vy)
+		# kub.turn(vw)
+		# kub.execute(state)
 		##
 		## 
 		##
-		self.new_point = kub.get_pos(state)
-		pass
+		self.new_point = kub.get_pos(self.state)
+		
 
+	
 	def on_exit_drive(self):
 		pass
 
