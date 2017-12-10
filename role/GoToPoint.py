@@ -17,7 +17,7 @@ class GoToPoint(behavior.Behavior):
 	## @param      self   The object
 	## @param      point  The point
 	##
-	def __init__(self,kub,state,point):
+	def __init__(self,kub,point):
 		super(GoToPoint, self).__init__()
 		self.kub = kub
 		self.state = state
@@ -57,7 +57,7 @@ class GoToPoint(behavior.Behavior):
 	## @return     { description_of_the_return_value }
 	##
 	def at_new_point():
-		return self.new_point.dist(self.target_point) < config.DISTANCE_THRESHOLD
+		return self.new_point.dist(self.target_point) < 10.0
 
 		
 	def on_enter_setup(self):
@@ -95,7 +95,7 @@ class GoToPoint(behavior.Behavior):
 		##
 		## 
 		##
-		self.new_point = kub.get_pos(self.state)
+		self.new_point = kub.get_pos()
 		
 
 	

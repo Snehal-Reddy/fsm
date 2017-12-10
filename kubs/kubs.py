@@ -145,8 +145,8 @@ class kubs:
 
         self.isteamyellow = data.isteamyellow
         self.pos = data.homePos[self.kubs_id]
-        self.vx = data.homeVel[self.kubs_id].x
-        self.vy = data.homeVel[self.kubs_id].y
+        # self.vx = data.homeVel[self.kubs_id].x
+        # self.vy = data.homeVel[self.kubs_id].y
 
         if self.homeDetected[self.kubs_id] == True:
             print("kubs_id " + str(self.kubs_id) + "Detected")
@@ -154,4 +154,4 @@ class kubs:
             print("kubs_id " + str(self.kubs_id) + "Not Detected")
 
     def kubsBelief(self):
-        pass
+        rospy.Subscriber('/belief_state',BeliefState,self.bs_callback,queue_size=1000)
