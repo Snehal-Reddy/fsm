@@ -2,7 +2,7 @@ import sys
 import os
 import rospy
 
-sys.path.append('./../plays_py/scripts/utils/')
+sys.path.append('./plays_py/scripts/utils/')
 from geometry import Vector2D
 from config import *
 from krssg_ssl_msgs.srv import path_plan

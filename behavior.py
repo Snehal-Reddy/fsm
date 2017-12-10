@@ -17,8 +17,9 @@ class Behavior(fsm.StateMachine):
         failed = 4
         cancelled = 5
 
-    def __init__(self, continuous: bool) -> None:
-        super().__init__(start_state=Behavior.State.start)
+    def __init__(self):
+        print "behav"
+        super(Behavior, self).__init__(start_state=Behavior.State.start)
         # add base states for Behavior
         self.add_state(Behavior.State.start)
         self.add_state(Behavior.State.running)
@@ -28,14 +29,14 @@ class Behavior(fsm.StateMachine):
 
         #self._is_continuous = continuous
 
-    def add_state(self, state, parent_state=None):
-        super().add_state(state, parent_state)
+    # def add_state(self, state, parent_state=None):
+    #     super().add_state(state, parent_state)
         #TODO: raise exception if @state doesn't have a Behavior.State ancestor
 
         ## Whether or not the Behavior is running
         # Because we use hierarchial state machines, a behavior never be in the "running", but may be in a substate of it
         # This is a convenience method to check whether or not the play is running
-    def is_done_running(self) -> bool:
+    def is_done_running(self) :
         for state in [Behavior.State.completed, Behavior.State.failed,
                       Behavior.State.cancelled]:
             if self.is_in_state(state): return True

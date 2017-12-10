@@ -1,4 +1,5 @@
-import rospy
+import rospy,sys
+sys.path.append('./plays_py/scripts/utils/')
 from geometry import Vector2D
 from krssg_ssl_msgs.msg import point_2d
 from krssg_ssl_msgs.msg import BeliefState
@@ -11,5 +12,5 @@ pub = rospy.Publisher('/grsim_data',gr_Commands,queue_size=1000)
 
 
 kub = kubs.kubs(0,pub)
-g_fsm = GoToPoint.GoToPoint(kub)
+g_fsm = GoToPoint.GoToPoint(kub,Vector2D(-4000,27))
 g_fsm.spin()

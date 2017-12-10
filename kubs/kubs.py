@@ -148,7 +148,8 @@ class kubs:
         # self.vx = data.homeVel[self.kubs_id].x
         # self.vy = data.homeVel[self.kubs_id].y
 
-        if self.homeDetected[self.kubs_id] == True:
+        print(str(self.state.ballPos.x))
+        if data.homeDetected[self.kubs_id] == True:
             print("kubs_id " + str(self.kubs_id) + "Detected")
         else:
             print("kubs_id " + str(self.kubs_id) + "Not Detected")

@@ -17,30 +17,34 @@ class GoToPoint(behavior.Behavior):
 	## @param      self   The object
 	## @param      point  The point
 	##
-	def __init__(self,kub,point):
-		super(GoToPoint, self).__init__()
+	def __init__(self,kub,point,continuous=False):
+		print "gtp"
+		#GoToPoint.behavior.Behavior()
+		#g = behavior.Behavior()
+		#print "gtp2"
+		super(GoToPoint,self).__init__()
 		self.kub = kub
-		self.state = state
+		#self.state = state
 
 		self.target_point = point
 
 		self.add_state(GoToPoint.State.setup,
-			behaviour.Behaviour.State.running)
+			behavior.Behavior.State.running)
 		self.add_state(GoToPoint.State.drive,
-			behaviour.Behaviour.State.running)
+			behavior.Behavior.State.running)
 		
 
-		self.add_transition(behaviour.Behaviour.State.start,
+		self.add_transition(behavior.Behavior.State.start,
 			GoToPoint.State.setup,lambda: True,'immediately')
 
 		self.add_transition(GoToPoint.State.setup,
 			GoToPoint.State.drive,lambda: self.target_present,'setup')
 
 		self.add_transition(GoToPoint.State.drive,
-			behaviour.Behaviour.State.completed,lambda:self.at_new_point(),'complete')
+			behavior.Behavior.State.completed,lambda:self.at_new_point(),'complete')
 
-		self.add_transition(behaviour.Behaviour.State.completed,
-			behaviour.Behaviour.State.start,lambda:not self.at_new_point(),'complete')
+		self.add_transition(behavior.Behavior.State.completed,
+			behavior.Behavior.State.start,lambda:not self.at_new_point(),'complete')
 	##
 	## @brief      { function_description }
 	##
@@ -57,7 +61,7 @@ class GoToPoint(behavior.Behavior):
 	## @return     { description_of_the_return_value }
 	##
 	def at_new_point():
-		return self.new_point.dist(self.target_point) < 10.0
+		return self.new_point.dist(self.target_point) < 1.0
 
 		
 	def on_enter_setup(self):

@@ -12,8 +12,9 @@ from enum import Enum
 # * on_exit_STATE
 #
 # Subclasses of StateMachine can optionally implement them and they will automatically be called at the appropriate times.
-class StateMachine:
+class StateMachine(object):
     def __init__(self, start_state):
+        print "fsm"
         # stores all states in the form _state_hierarchy[state] = parent_state
         self._state_hierarchy = {}
         self._transitions = {}
