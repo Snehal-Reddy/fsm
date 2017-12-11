@@ -6,10 +6,10 @@
 ## @see getVelocity()
 ##
 import sys
-sys.path.append('./../../plays_py/scripts/utils/')
+
 from math import *
-from geometry import Vector2D
-from config import *
+from utils.geometry import Vector2D
+from utils.config import *
 class Velocity():
 	# TODO
 	# Start speed, final speed, maxacc

@@ -1,5 +1,7 @@
-import logging
+import logging,os
 from enum import Enum
+import graphviz as gv
+
 
 ## @brief generic hierarchial state machine class.
 #
@@ -14,7 +16,7 @@ from enum import Enum
 # Subclasses of StateMachine can optionally implement them and they will automatically be called at the appropriate times.
 class StateMachine(object):
     def __init__(self, start_state):
-        print "fsm"
+        #print "fsm"
         # stores all states in the form _state_hierarchy[state] = parent_state
         self._state_hierarchy = {}
         self._transitions = {}
@@ -150,6 +152,53 @@ class StateMachine(object):
             ancestors.insert(0, state)
             state = self._state_hierarchy[state]
         return ancestors
+
+        # returns a graphviz.Digraph object
+    def as_graphviz(self):
+        g = gv.Digraph(self.__class__.__name__, format='png')
+
+        cluster_index = 0
+        subgraphs = {}
+        subgraphs[None] = g
+        for state in self._state_hierarchy:
+            if state not in subgraphs and state in self._state_hierarchy.values(
+            ):
+                sg = gv.Digraph(
+                    'cluster_' + str(cluster_index),
+                    graph_attr={'label': state.__module__ + "::" + state.name,
+                                'style': 'dotted'})
+                cluster_index += 1
+
+                subgraphs[state] = sg
+
+        for state in self._state_hierarchy:
+            has_children = state in self._state_hierarchy.values()
+
+            if not has_children:
+                enclosing_graph = subgraphs[self._state_hierarchy[state]]
+                shape = 'diamond' if state == self.start_state else 'ellipse'
+                enclosing_graph.node(
+                    state.name,
+                    label=state.__module__ + "::" + state.name,
+                    shape=shape)
+
+        for state, subgraph in subgraphs.items():
+            if state is not None:
+                subgraphs[self._state_hierarchy[state]].subgraph(subgraph)
+
+        for start in self._transitions:
+            for end, event in self._transitions[start].items():
+                g.edge(start.name,
+                       end.name,
+                       label=event['name'],
+                       decorate='True')
+
+        return g
+
+    # writes a png file of the graphviz output to the specified location
+    def write_diagram_png(self):
+        g = self.as_graphviz()
+        g.render(os.getcwd()+self.__class__.__name__+'.png', cleanup=True)
 
     @property
     def state(self):

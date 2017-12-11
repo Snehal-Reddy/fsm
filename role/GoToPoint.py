@@ -1,6 +1,5 @@
 from enum import Enum
 import behavior
-import config
 import _GoToPoint
 class GoToPoint(behavior.Behavior):
 	"""docstring for GoToPoint"""

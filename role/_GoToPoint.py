@@ -1,14 +1,12 @@
 from kubs import kubs, cmd_node
-#sys.path.append('./../../pid/')
 from pid.run import *
 import rospy,sys
-sys.path.append('./../../plays_py/scripts/utils/')
-from geometry import Vector2D
 from krssg_ssl_msgs.msg import point_2d
 from krssg_ssl_msgs.msg import BeliefState
 from krssg_ssl_msgs.msg import gr_Commands
 from krssg_ssl_msgs.msg import gr_Robot_Command
-from config import *
+from utils.geometry import Vector2D
+from utils.config import *
 
 kub = None
 start_time = None
