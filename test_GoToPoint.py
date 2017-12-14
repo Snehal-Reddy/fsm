@@ -33,7 +33,7 @@ def BS_callback(data):
 	t = rospy.Time.now()
 	t = t.secs + 1.0*t.nsecs/pow(10,9)
 	print(" t - start = ",t-start_time)
-	[vx, vy, vw, REPLANNED] = Get_Vel(start_time, t, BOT_ID, GOAL_POINT, homePos, awayPos)	#vx, vy, vw, replanned
+	[vx, vy, vw, REPLANNED] = Get_Vel(start_time, t, BOT_ID, data.ballPos, homePos, awayPos)	#vx, vy, vw, replanned
 	print("-------------------REPLANNED = ",REPLANNED)
 	if(REPLANNED):
 		reset()
@@ -43,10 +43,8 @@ def BS_callback(data):
 	kub.execute(data)
 
 if __name__ == "__main__":
-	global start_time
 	rospy.init_node('node_new',anonymous=False)
-	start_time = rospy.Time.now()
-	start_time = 1.0*start_time.secs + 1.0*start_time.nsecs/pow(10,9)
+	reset()
 	pub = rospy.Publisher('/grsim_data', gr_Commands, queue_size=1000)	
 	rospy.Subscriber('/belief_state', BeliefState, BS_callback, queue_size=1000)
 	rospy.spin()

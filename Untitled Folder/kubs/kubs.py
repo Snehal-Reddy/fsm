@@ -1,4 +1,4 @@
-from behavior_fsm.kubs import cmd_node
+import cmd_node
 import rospy
 from krssg_ssl_msgs.msg import BeliefState
 
@@ -145,13 +145,14 @@ class kubs:
 
         self.isteamyellow = data.isteamyellow
         self.pos = data.homePos[self.kubs_id]
-        self.vx = data.homeVel[self.kubs_id].x
-        self.vy = data.homeVel[self.kubs_id].y
+        # self.vx = data.homeVel[self.kubs_id].x
+        # self.vy = data.homeVel[self.kubs_id].y
 
-        if self.homeDetected[self.kubs_id] == True:
+        print(str(self.state.ballPos.x))
+        if data.homeDetected[self.kubs_id] == True:
             print("kubs_id " + str(self.kubs_id) + "Detected")
         else:
             print("kubs_id " + str(self.kubs_id) + "Not Detected")
 
     def kubsBelief(self):
-        pass
+        rospy.Subscriber('/belief_state',BeliefState,self.bs_callback,queue_size=1000)
