@@ -25,6 +25,7 @@ class kubs:
         self.state = BeliefState()
         self.kubsBelief()
         self.pub = pub
+        self.c=0
     ##
     ## @brief      { function_description }
     ##
@@ -117,7 +118,7 @@ class kubs:
     ##
     
 
-    def get_pos(self, state):
+    def get_pos(self):
         return self.pos
 
     def bs_callback(self, data):
@@ -146,13 +147,17 @@ class kubs:
         self.pos = data.homePos[self.kubs_id]
         # self.vx = data.homeVel[self.kubs_id].x
         # self.vy = data.homeVel[self.kubs_id].y
+        self.c=self.c+1
+        print(self.state.ballPos.x, self.state.ballPos.y)
+        print("shubham   "+str(self.c))
 
-        print(str(self.state.ballPos.x))
-        if data.homeDetected[self.kubs_id] == True:
-            print("kubs_id " + str(self.kubs_id) + "Detected")
-        else:
-            print("kubs_id " + str(self.kubs_id) + "Not Detected")
+        #print(str(self.state.ballPos.x))
+        #if data.homeDetected[self.kubs_id] == True:
+            #print("kubs_id " + str(self.kubs_id) + "Detected")
+        #else:
+            #print("kubs_id " + str(self.kubs_id) + "Not Detected")
 
     def kubsBelief(self):
         #rospy.init_node('kubs_node', anonymous=False)
         rospy.Subscriber('/belief_state',BeliefState,self.bs_callback,queue_size=1000)
+       # rospy.spin()
